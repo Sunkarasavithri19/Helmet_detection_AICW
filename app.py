@@ -7,8 +7,21 @@ import cv2
 # Page config
 st.set_page_config(page_title="Helmet Detection System", layout="wide")
 
+# Header
 st.title("🪖 Helmet Detection System")
 st.markdown("Upload an image to detect **With Helmet** and **Without Helmet**")
+
+# Developer Info
+st.markdown("""
+---
+### 👨‍💻 Developed By:
+- **M Satya**
+- **S Savithri**
+
+### 🎓 Guide:
+- **Kattappa**
+---
+""")
 
 # Load model (cached)
 @st.cache_resource
@@ -22,11 +35,11 @@ uploaded_file = st.file_uploader("Choose an Image", type=["jpg", "png", "jpeg"])
 
 if uploaded_file is not None:
 
-    # Convert image to RGB (fix 4-channel issue)
+    # Convert image to RGB (no resizing done here)
     image = Image.open(uploaded_file).convert("RGB")
     image_np = np.array(image)
 
-    # Run detection
+    # Run detection on ORIGINAL image size
     results = model(image_np)
 
     # Annotated image
@@ -42,14 +55,15 @@ if uploaded_file is not None:
     helmet_count = 0
     no_helmet_count = 0
 
-    for box in boxes:
-        cls_id = int(box.cls[0])
-        label = class_names[cls_id]
+    if boxes is not None:
+        for box in boxes:
+            cls_id = int(box.cls[0])
+            label = class_names[cls_id]
 
-        if label == "With Helmet":
-            helmet_count += 1
-        else:
-            no_helmet_count += 1
+            if label == "With Helmet":
+                helmet_count += 1
+            else:
+                no_helmet_count += 1
 
     st.subheader("📊 Detection Summary")
     st.write(f"🟢 With Helmet: {helmet_count}")
