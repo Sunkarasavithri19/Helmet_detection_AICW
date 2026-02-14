@@ -21,7 +21,7 @@ with col2:
 
     st.markdown("---")
     st.markdown("### 🎓 Guide")
-    st.markdown("**Kattappa**")
+    st.markdown("**K**")
 
 # Load model (cached)
 @st.cache_resource
@@ -72,3 +72,4 @@ with col1:
         st.subheader("📊 Detection Summary")
         st.write(f"🟢 With Helmet: {helmet_count}")
         st.write(f"🔴 Without Helmet: {no_helmet_count}")
+
